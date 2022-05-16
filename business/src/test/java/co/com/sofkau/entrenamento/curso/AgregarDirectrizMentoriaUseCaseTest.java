@@ -6,6 +6,7 @@ import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofkau.entrenamiento.curso.commands.AgregarDirectrizMentoria;
 import co.com.sofkau.entrenamiento.curso.commands.AgregarMentoria;
+import co.com.sofkau.entrenamiento.curso.events.CursoCreado;
 import co.com.sofkau.entrenamiento.curso.events.DirectrizAgregadaAMentoria;
 import co.com.sofkau.entrenamiento.curso.events.MentoriaCreada;
 import co.com.sofkau.entrenamiento.curso.values.*;
@@ -39,7 +40,7 @@ class AgregarDirectrizMentoriaUseCaseTest {
         Directiz directiz = new Directiz("Curso DDD");
         var command = new AgregarDirectrizMentoria(coursoId, mentoriaId, directiz);
 
-        when(repository.getEventsBy("xxxx")).thenReturn(storedEvents());
+        when(repository.getEventsBy("ddddd")).thenReturn(history());
         useCase.addRepository(repository);
 
         //act
@@ -55,17 +56,24 @@ class AgregarDirectrizMentoriaUseCaseTest {
         Assertions.assertEquals("Curso DDD", event.getDirectiz().value());
     }
 
-    private List<DomainEvent> storedEvents() {
-        MentoriaId mentoriaId = new MentoriaId("xxxx");
-        Nombre nombre = new Nombre("Aprendiendo de casos de usos");
-        Fecha fecha = new Fecha(LocalDateTime.now(), LocalDate.now());
+    private List<DomainEvent> history() {
+        Nombre nombreCurso = new Nombre("DDD");
+        Descripcion descripcion = new Descripcion("Curso complementario para el training");
+        var eventCurso = new CursoCreado(
+                nombreCurso,
+                descripcion
+        );
+        eventCurso.setAggregateRootId("xxxxx");
 
-        var event = new MentoriaCreada(
+        MentoriaId mentoriaId = new MentoriaId("xxxx");
+        Nombre nombreMentoria = new Nombre("Aprendiendo de casos de usos");
+        Fecha fecha = new Fecha(LocalDateTime.now(), LocalDate.now());
+        var eventMentoria = new MentoriaCreada(
                 mentoriaId,
-                nombre,
+                nombreMentoria,
                 fecha
         );
 
-        return List.of(event);
+        return List.of(eventCurso, eventMentoria);
     }
 }

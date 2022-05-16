@@ -9,8 +9,4 @@ public class MentoriaId extends Identity {
         super(id);
     }
 
-    public static MentoriaId of(String id) {
-        return new MentoriaId(id);
-    }
-
 }

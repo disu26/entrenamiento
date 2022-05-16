@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Mentoria extends Entity<MentoriaId> {
-
     protected Nombre nombre;
     protected Set<Directiz> directices;
     protected Fecha fecha;

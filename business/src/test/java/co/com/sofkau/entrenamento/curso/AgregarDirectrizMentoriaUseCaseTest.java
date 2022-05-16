@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,9 +34,10 @@ class AgregarDirectrizMentoriaUseCaseTest {
     @Test
     void agregarDirectrizUnaMentoriaHappyPass(){
         //arrange
+        CursoId coursoId = CursoId.of("ddddd");
         MentoriaId mentoriaId = new MentoriaId("xxxx");
         Directiz directiz = new Directiz("Curso DDD");
-        var command = new AgregarDirectrizMentoria(mentoriaId, directiz);
+        var command = new AgregarDirectrizMentoria(coursoId, mentoriaId, directiz);
 
         when(repository.getEventsBy("xxxx")).thenReturn(storedEvents());
         useCase.addRepository(repository);
